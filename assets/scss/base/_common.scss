@@ -1,0 +1,135 @@
+html{
+    @include tablet {
+        font-size: 15px;
+    }
+    @include mobile {
+        font-size: 14px;
+    }
+}
+
+body {
+    overflow-x: hidden;
+    font-family: "Inter", "pretendard", sans-serif;
+    word-break:keep-all;
+    line-height: 1.6;
+    letter-spacing: -.03rem;
+    background-color:$color-white;
+    color:$color-black;
+    @include prefix(transition, background-color .8s);
+
+    @include pc {
+        cursor: none;
+    }
+}
+
+:root{
+    --grid-padding: 2.5rem;
+    --grid-padding-row: 7.5rem;
+
+    @include tablet {
+        --grid-padding: 2rem;
+        --grid-padding-row: 5.3333rem;
+    }
+    @include mobile {
+        --grid-padding: 1.5rem;
+        --grid-padding-row: 4.2857rem;
+    }
+
+}
+
+::-webkit-selection {
+    background: rgba(135, 135, 135, .35);
+    color:#fff;
+}
+::-moz-selection {
+    background: rgba(135, 135, 135, .35);
+    color:#fff;
+}
+::selection {
+    background: rgba(135, 135, 135, .35);
+    color:#fff;
+}
+
+.sr-only{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: polygon(0 0, 0 0, 0 0);
+    white-space: nowrap;
+}
+
+.pc-only{
+    @include tablet {
+        display: none !important;
+    }
+}
+
+.tb-only{
+    display: none !important;
+    @include tablet {
+        display: block !important;
+    }
+    @include mobile {
+        display: none !important;
+    }
+}
+
+.tb-show{
+    display: none !important;
+    @include tablet {
+        display: block !important;
+    }
+}
+
+.mo-only{
+    display: none !important;
+    @include mobile {
+        display: block !important;
+    }
+}
+
+
+.cursor {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width:15px;
+    height:15px;
+    background: $color-primary;
+    border-radius: 50%;
+    transform: scale(1);
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.3s, opacity 0.2s;
+    opacity: 0;
+
+    &.active {
+        width: 44px;
+        height: 44px;
+        border: 1px solid #999;
+        transform: scale(2);
+        background: none;
+        border-radius: 50%;
+    }
+}
+
+.cursor-more {
+    position: absolute;
+    top:0;
+    left: 0;
+    padding:0.5rem 0.8rem;
+    backdrop-filter: blur(5px);
+    background-color: rgba(10, 10, 10, 0.2);
+    border-radius: 100px;
+    color: $color-white;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.3s;
+    opacity: 0;
+
+    &.active {
+        opacity: 1;
+    }
+}

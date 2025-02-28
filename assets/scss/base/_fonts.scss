@@ -1,0 +1,57 @@
+/* font-family: "NyghtSerif", serif; */
+
+@font-face {
+    font-family: 'NyghtSerif';
+    font-weight: 300;
+    font-style: normal;
+    src: url('../fonts/NyghtSerif-Light.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'NyghtSerif';
+    font-weight: 300;
+    font-style: italic;
+    src: url('../fonts/NyghtSerif-LightItalic.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'NyghtSerif';
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/NyghtSerif-Regular.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'NyghtSerif';
+    font-weight: 400;
+    font-style: italic;
+    src: url('../fonts/NyghtSerif-RegularItalic.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'NyghtSerif';
+    font-weight: 500;
+    font-style: normal;
+    src: url('../fonts/NyghtSerif-Medium.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'NyghtSerif';
+    font-weight: 500;
+    font-style: italic;
+    src: url('../fonts/NyghtSerif-MediumItalic.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'NyghtSerif';
+    font-weight: 600;
+    font-style: normal;
+    src: url('../fonts/NyghtSerif-Bold.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'NyghtSerif';
+    font-weight: 600;
+    font-style: italic;
+    src: url('../fonts/NyghtSeri-BoldItalic.woff2') format('woff2');
+  }
