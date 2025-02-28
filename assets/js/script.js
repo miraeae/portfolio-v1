@@ -1,23 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    // Disable scrolling until the intro ends
-    lenis.stop();
-
     gsap.registerPlugin(ScrollTrigger);
 
-    common();
-
-    intro(); // 0, 1
+    layout();
+    
+    hero(); // 1
     about(); // 2
     project(); // 3
-    subProject(); // 3-2
+    subProject() // 3-2
     goal(); // 4
-    contact(); //5
 
 });
 
 
-////////// 0-1. 부드럽게 스크롤
+////////// 0. 부드럽게 스크롤
 const lenis = new Lenis()
 
 lenis.on('scroll', ScrollTrigger.update)
@@ -29,66 +24,74 @@ gsap.ticker.add((time)=>{
 gsap.ticker.lagSmoothing(0)
 
 
-////////// 0-2. Intro
-function intro() {
-    const introTl = gsap.timeline();
-    const intro = document.getElementById('intro');
+////////// 1. Hero
+function hero() {
 
-    introTl
-    .to(".intro__text span", {opacity: 1, y: 0, duration: 1, ease: 'none'})
-    .to(".intro__text span", {yPercent : -100, duration: 1, ease: 'none'}, '+=1')
-    .to(".intro", {yPercent : -100, duration: 0.3, ease: 'none',
-        onComplete: () => onComplete()
-    }, "+=0.5")
+    // ram
+    var HeroImgNum = $(".hero__img-box").length;
+    var HeroImgArray = ["./assets/images/hero-img01.jpg", "./assets/images/hero-img02.jpg", "./assets/images/hero-img03.jpg", "./assets/images/hero-img04.jpg"];
 
-    function onComplete() {
-        lenis.start();
-        section();
-        hero();
+    for (i = 0; i < HeroImgNum; i += 1) {
+    // Math.random() 함수는 0~1 사이의 임의의 난수를 반환, Math.floor(num) num 이하 가장 큰 정수를 반환 (소수점 아래 내림)
+    // Math.random() 에 배열의 길이를 곱하고 Math.floor(내림)을 적용 시키면 0, 1, 2, 3 중의 하나의 수가 나옴
+    var RandomNum = Math.floor(Math.random() * HeroImgNum);
+
+    if (HeroImgArray.indexOf(RandomNum) === -1) { // 중복방지 // indexOf는 배열에서 지정된 요소를 찾을 수 있는 첫 번째 인덱스를 반환하고 존재하지 않으면 -1을 반환
+        HeroImgArray.push(RandomNum); //push() 함수는 배열추가
+        $('.hero__img-box').eq(i).append(
+            '<img src="'+HeroImgArray[RandomNum]+'" alt="Hero 비쥬얼 이미지">'
+        );
+        } else {
+            i -= 1;
+        }
     }
+
+
+    // Animation
+    const hero = document.getElementById("hero");
+    const heroTl = gsap.timeline()
+
+    heroTl
+    .set(".hero__inner", {scale: 0.2})
+    .to(".header__inner", {y: 0, duration: 1, delay: 1})
+    .to(".hero__img-box:not(:first-child)", {y: 0, stagger: 0.5}, "<")
+    .from(".hero__title span:first-child span", {yPercent: -100, duration: 1})
+    .from(".hero__title span:last-child span", {yPercent: 100, duration: 1}, "<")
+    .to(".hero__inner", {scale: 1, duration:0.5, ease: "none"})
+    .from(".hero__info-item", {yPercent: 100, stagger: 0.2, duration: 0.8})
+    .to(".hero__img-box:last-child img",{
+        scrollTrigger: {
+            trigger: hero,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+        },
+        yPercent: -15
+    });
 }
 
 
-////////// 1-1. Section Common - BG/COLOR
-function section() {
-    // Scroll-triggered animation
-    gsap.utils.toArray(".sec").forEach((sec) => {
-        ScrollTrigger.create({
-            trigger: sec,
-            start: "top center",
-            end: "bottom center",
-            scrub: true,
-            toggleClass:  {"targets": sec, className: "active"},
-            ease: "power2",
-            refreshPriority: 0
-        });
-    });
+////////// 2. About
+function about() {
+    gsap.fromTo('.about__copy--en span', {
+        "background-size":"0% 100%"
+    },{
+        "background-size":"100% 100%",
+        scrollTrigger: {
+            trigger:".about",
+            pinnedContainer:".about", //고정할 대상(영역)
+            start:"top 40%",
+            endTrigger:".about__copy--en",
+            end:"center center",
+            scrub:true,
+            //markers: true,
+        }
+    })
+}
 
-
-    // BG Mode
-    gsap.utils.toArray(".sec:not(.hero, .about)").forEach((sec) => {
-        ScrollTrigger.create({
-            trigger: sec,
-            start: "top center",
-            end: "bottom center",
-            scrub: true,
-            toggleClass:  {"targets": sec.querySelector(".line-anim"), className: "active"},
-            ease: "power2",
-            refreshPriority: 0,
-            // markers: true,
-            // id: `x_${sec.getAttribute('data-bgcolor')}`,
-            onEnter: () => {
-                document.body.setAttribute('data-mode', sec.getAttribute('data-mode'));
-            },
-            onEnterBack: () => {
-                //console.log('enter back');
-                document.body.setAttribute('data-mode', sec.getAttribute('data-mode'));
-            },
-        });
-    });
-
-    
-    // Heading
+////////// 3. Projects
+function project() {
+    // Title
     const headings = document.querySelectorAll(".reveal-text");
 
     headings.forEach((heading) => {
@@ -96,9 +99,6 @@ function section() {
             types: "lines, words, chars",
             tagName: "span",
         });
-
-        const headingParent = heading.parentNode;
-        const headingDesc = headingParent.querySelector("p");
 
         const headingTl = gsap.timeline({paused: true});
 
@@ -111,9 +111,7 @@ function section() {
 				stagger: 0.1,
 				ease: "power2.inOut",
 		})
-        .from(headingDesc, {opacity: 0, duration: 0.8})
 
-        
         ScrollTrigger.create({
             trigger: heading,
             start: "top center",
@@ -125,256 +123,53 @@ function section() {
             },
         });
     });
-}
 
-
-////////// 1-2. Hero
-function hero() {
-    const hero = document.getElementById("hero");
-    const text = new SplitType(".hero__title", {
-        types: "lines, words",
-        tagName: "span",
-    });
-
-    const heroTl = gsap.timeline()
-
-    heroTl
-    .to(".hero__bg img", {scale: 1, duration: 3})
-    .to(".hero__title", {opacity: 1}, '<')
-    .to(".hero__title .word", {y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power2.inOut"}, '<')
-    .to(".hero__text-btm", {opacity: 1, duration: 0.5}, '<')
-    .to(".hero__text", {opacity: "0.8", duration: 1, ease: "power2.inOut"}, '-=2')
-    .to(".header__inner", {y: 0, duration: 1}, '-=1.5')
-    .to(".scroll", {opacity: 1, duration: 1}, '<')
-    .to(".hero__text-wrap", {yPercent:-20, opacity:0, duration:1,
-        scrollTrigger: {
-            trigger: hero,
-            start: "60% center",
-            end: "bottom 40%",
-            scrub: 1,
-            //markers: true,
-        }
-    })
-
-    // Img Parallax
-    gsap.to(".hero__bg img",{
-        scrollTrigger: {
-            trigger: hero,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-            //markers: true,
-        },
-        yPercent: -25,
-        ease:'none'
-    });
-}
-
-
-////////// 2. About
-function about() {
-
-ScrollTrigger.create({
-    trigger: ".about",
-        start: "+=50 bottom",
-        end: "bottom center",
-        scrub: true,
-        ease: "power2",
-        //markers: true,
-        onEnter: () => {
-            document.body.setAttribute('data-mode', 'light');
-        },
-        onEnterBack: () => {
-            //console.log('enter back');
-            document.body.setAttribute('data-mode', 'light');
-        },
-        onLeaveBack: () => {
-            //console.log('Leave back');
-            document.body.setAttribute('data-mode', document.getElementsByClassName("sec")[1].getAttribute('data-mode'));
-        },
-    })
-
-    let mm = gsap.matchMedia();
-
-    mm.add({
-        isDesktop: `(min-width: 1025px)`,
-        isMobile: `(max-width: 1024px)`,
-    },(context) => {
-        // context.conditions has a boolean property for each condition defined above indicating if it's matched or not.
-        let { isDesktop, isMobile } = context.conditions;
-
-        if(isDesktop) {
-            // Title
-            ScrollTrigger.create ({
-                trigger: ".about__title-wrap",
-                start:"center center",
-                endTrigger: ".about__skill",
-                end: "bottom 60%",
-                pin:true,
-                pinSpacing: false,
-                toggleActions: "play none none reverse",
-                //markers: true,
-                //id : "aboutTitleBox",
-            });
-
-            // Btm Scroll Text
-            const aboutBtmTl = gsap.timeline();
-            aboutBtmTl
-            .fromTo(".about__scroll-text", {xPercent: 20}, {
-                scrollTrigger: {
-                    trigger: ".skill__list",
-                    start:"90% center",
-                    endTrigger: ".about__scroll-text",
-                    end: "90% 30%",
-                    scrub: 1,
-                    //markers: true,
-                    //id : "aboutScrollText",
-                },
-                xPercent: -200,
-                ease: "none"
-            })
-            .to(".about__scroll-text", {
-                scrollTrigger: {
-                    trigger: ".about__scroll-text",
-                    start:"60% center",
-                    end: "90% 30%",
-                    scrub: 1,
-                    //markers: true,
-                    //id : "aboutScrollText",
-                },
-                opacity: 0
-            })
-        } else {
-            ////// isMobile
-            // Title
-            const aboutTl = gsap.timeline({ 
-                scrollTrigger: {
-                    trigger: ".about__title-wrap",
-                    start:"top top",
-                    endTrigger: ".about__keyword",
-                    end: "center center",
-                    pin:true,
-                    pinSpacing: false,
-                    toggleActions: "play none none reverse",
-                    //markers: true,
-                    //id : "aboutTitleBox",
-                }
-            });
-            aboutTl
-            .to(".about__title", {opacity:"0.05"}, '+=0.5')
-
-            // Btm Scroll Text
-            const aboutBtmTl = gsap.timeline();
-            aboutBtmTl
-            .fromTo(".about__scroll-text", {xPercent: 20}, {
-                scrollTrigger: {
-                    trigger: ".skill__list",
-                    start:"center center",
-                    end: "bottom top",
-                    scrub: 1,
-                    //markers: true,
-                    //id : "aboutScrollText",
-                },
-                xPercent: -200,
-                ease: "none"
-            })
-            .to(".about__scroll-text", {
-                scrollTrigger: {
-                    trigger: ".about__scroll-text",
-                    start:"80% center",
-                    end: "80% top",
-                    scrub: 1,
-                    //markers: true,
-                    //id : "aboutScrollText",
-                },
-                opacity: 0
-            })
-        }
-    });
-
-    // Particle
-    $(document).mousemove(function(e){
-        //중심좌표 구하기
-        mouseX = e.clientX - window.innerWidth/2;
-        mouseY = e.clientY - window.innerHeight/2;
-
-        $('.particle svg, .about__keyword').each(function(){
-            gsap.to(this,{
-                x:mouseX/50,
-                y:mouseY/50
-            })
-        })
-    });
-}
-
-
-////////// 3. Projects
-function project() {
 
     // Title Pin
-    gsap.to(".project__title-wrap", {
-        scrollTrigger: {
-            trigger: ".project__title-wrap",
-            start: "top top",
-            endTrigger: ".project__list",
-            end: "top top",
-            pin: true,
-            pinSpacing: false,
-            scrub:1,
-            //markers: true
-        },
-        opacity:0
-    })
-
+    ScrollTrigger.create({
+        trigger: ".project__title-wrap",
+        start: "top top",
+        endTrigger: ".project__item.last",
+        end: "center center",
+        pin: true,
+        pinSpacing: false,
+        scrub:1,
+    });
 
     // Project List
     gsap.utils.toArray(".project__item").forEach((item, i) => {
-
-        gsap.to(item, {
+        gsap.timeline({
             scrollTrigger: {
                 trigger: item,
-                start:"-50% center",
-                end: "top center",
+                start:"top bottom",
+                end: "center center",
                 scrub: 1,
                 // markers: true,
-                // id : "itemEnter",
-            },
-            scale: 1,
-            "border-radius":0,
-            ease: "none",
-        });
+                // id : "itemIn",
+            }
+        })
+        .to(item, {scale: 1, ease: "none", duration: 1}, 0)
 
-        gsap.to(item, {
-            scrollTrigger: {
-                trigger: item,
-                start:"20% top",
-                end: "bottom top",
-                scrub: 2,
-                // markers: true,
-                // id: "itemLeave"
-            },
-            opacity: 0,
-            ease: "none",
-        });
 
         if ($(item).hasClass("last")) {
             return;
         }
 
-        ScrollTrigger.create({
-            trigger: item,
-            start:"top top",
-            endTrigger: ".project__item.last",
-            end: "top top",
-            pin: true,
-            pinSpacing: false,
-            //id: "itemPin",
-            //markers:true,
-        });
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: item,
+                start:"center 40%",
+                end: "center top",
+                scrub: 1,
+                // markers: true,
+                // id : "itemOut",
+            }
+        })
+        .to(item, {scale: 0.5, ease: "none", duration: 1}, 0)
+
     });
 
-    // Bg Parallax
-    gsap.utils.toArray(".project__item-bg").forEach((itemBg, i) => {
+    gsap.utils.toArray(".project__item-img-box .project__item-link").forEach((itemBg, i) => {
         const img = itemBg.querySelector('img');
 
         gsap.fromTo(img,{yPercent:-25},{
@@ -392,99 +187,99 @@ function project() {
     })
 }
 
-
-////////// 3-2. Sub Project
+///// 3-2. Sub Project
 function subProject() {
-    // Title
-    const titleBox = document.querySelectorAll(".sub-project__title-wrap");
+    // Horizontal Scroll
+    const subTitle = document.querySelector(".sub-project__title-wrap");
+    const subList = document.querySelector(".sub-project__list");
+    const subItem = gsap.utils.toArray(".sub-project__item");
 
-        // Pin
-        ScrollTrigger.create({
-            trigger: titleBox,
-            start: "top top",
-            endTrigger: ".sub-project__item:last-child",
-            end: "40% center",
-            pin: true,
-            pinSpacing: false,
-            refreshPriority: 0,
-            // markers: true,
-            // id: "subPPin",
-            onEnter: () => {
-                gsap.to(titleBox, {opacity: "0.2",
-                    scrollTrigger: {
-                        trigger: ".sub-project__title",
-                        start: "bottom top",
-                        // markers: true,
-                        // id: "SubPtitleBox1"
-                    },
-                })
-            },
-            onLeave: () => {
-                gsap.to(titleBox, {opacity: 0})
-            },
-            onEnterBack : () => {
-                //console.log("Enter back")
-                gsap.to(titleBox, {opacity: "0.2"})
-            },
-            onLeaveBack : () => {
-                //console.log("Leave Back")
-                gsap.to(titleBox, {opacity: 1})
-            },
-        });
-    
+    const mm = gsap.matchMedia();
+        mm.add({
+            isDesktop: `(min-width: 1025px)`,
+            isMobile: `(max-width:1024px)`
+        }, (context) => {
+            let { isDesktop, isMobile } = context.conditions;
 
+        if(isDesktop) {
+            // Title Pin
+            ScrollTrigger.create({
+                trigger: subTitle,
+                start:"top top",
+                end: () =>  "+=" + (subList.offsetWidth - innerWidth),
+                pin: true,
+                scrub: 1,
+                // markers: true,
+                refreshPriority: 0,
+            })
 
-        // Image Parallax
-        gsap.utils.toArray(".sub-project__item-img-box").forEach((itemImgBox, i) => {
-            const img = itemImgBox.querySelector('img');
-    
-            gsap.fromTo(img,{yPercent:-30, scale: 1},{
+            // Horizontal Scroll
+            const scrollTween = gsap.to(subItem, {
+                xPercent: -100 * (subItem.length - 1), //마지막 요소를 제외한 모든 요소들을 왼쪽으로 100%만큼 이동
+                ease:"none",
                 scrollTrigger: {
-                    trigger: itemImgBox,
-                    start: "-=20% bottom",
-                    end: "bottom top",
-                    scrub: true,
-                    //markers: true,
-                    //id: "itemImgBox"
-                },
-                yPercent: 0,
-                scale: 1,
-                ease:'none'
+                    trigger: subList,
+                    start:"top top",
+                    end: () =>  "+=" + (subList.offsetWidth - innerWidth), // 요소의 너비에서 현재 뷰포트의 너비를 뺀 값
+                    pin: true,
+                    //markers:true,
+                    scrub:1,
+                }
             });
-        })
 
-
-    // More Modal
-    const toggles = document.querySelectorAll(".modal__toggle")
-
-    toggles.forEach(function (toggle) {
-        toggle.addEventListener("click", function() {
-            $(this).toggleClass("active");
-            const modalTl = gsap.timeline({})
-
-            if($(window).width() > 1024){
-                if($(this).hasClass("active")){
-                    modalTl
-                    .to($(this).parent(".modal"), {"width":"360px", "height": "auto", "border-radius": "25px;"})
-                    .to($(this).next(".modal__content"), {opacity: 1}, '<')
-                }else{
-                    modalTl
-                    .to($(this).parent(".modal"), {"width":"50px", "height": "50px", "border-radius": "50px;"})
-                    .to($(this).next(".modal__content"), {opacity: 0}, '<')
-                }
-            } else {
-                if($(this).hasClass("active")){
-                    modalTl
-                    .to($(this).parent(".modal"), {"width":"320px", "height": "auto", "border-radius": "25px;"})
-                    .to($(this).next(".modal__content"), {opacity: 1}, '<')
-                }else{
-                    modalTl
-                    .to($(this).parent(".modal"), {"width":"40px", "height": "40px", "border-radius": "50px;"})
-                    .to($(this).next(".modal__content"), {opacity: 0}, '<')
-                }
-            }
-        })
+            gsap.utils.toArray('.sub-project__item-text-box').forEach(function(textBox){
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: textBox,
+                        containerAnimation: scrollTween, //가로스크롤에서 트리거시점을 잡아주는 옵션
+                        start: 'center 70%',
+                        end: 'center 45%',
+                        scrub:true,
+                        //markers: true
+                    }
+                })
+                .to(textBox.previousElementSibling, {"filter":"grayscale(0)", ease:"none", duration:1})
+                .to(textBox, {opacity:1,"height":"100px",}, '<')
+                .to(textBox.nextElementSibling, {"opacity":"1"}, '<')
+            
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: textBox,
+                        containerAnimation: scrollTween,
+                        start: 'center 45%',
+                        end: 'center 20%',
+                        scrub:true,
+                        //markers: true
+                    }
+                })
+                .to(textBox.previousElementSibling, {"filter":"grayscale(1)", ease:"none", duration:1}, 0)
+                .to(textBox, {opacity: 0,"height": 0}, '<')
+                .to(textBox.nextElementSibling, {"opacity":0}, '<')
+            });
+        }
     })
+
+
+    // Modal
+    const toggles = document.querySelectorAll(".modal__toggle");
+
+    toggles.forEach(toggle => {
+        toggle.addEventListener("click", function () {
+            $(this).toggleClass("active");
+            const modal = $(this).parent(".modal");
+            const content = $(this).next(".modal__content");
+            const isActive = $(this).hasClass("active");
+            const isDesktop = $(window).width() > 1024;
+
+            const size = isDesktop ? { open: "360px", close: "45px" } : { open: "320px", close: "35px" };
+            const borderRadius = isActive ? "20px" : isDesktop ? "45px" : "35px";
+
+            gsap.timeline()
+                .to(modal, { width: isActive ? size.open : size.close, height: isActive ? "auto" : size.close, borderRadius })
+                .to(content, { opacity: isActive ? 1 : 0 }, "<");
+        });
+    });
+
 
     // Counter
     const counters = document.querySelectorAll(".counter");
@@ -521,89 +316,47 @@ function subProject() {
         })
     });
 }
-    
+
 
 ////////// 4. Goal
 function goal() {
-    //const container = document.querySelector(".goal__inner")
-    const title = document.querySelector(".goal__title-wrap");
-    const horizontal = document.querySelector(".goal__list");
-    const horizontalItem = gsap.utils.toArray(".goal__item");
+    const mm = gsap.matchMedia();
+    mm.add({
+        isDesktop: `(min-width: 1025px)`,
+        isMobile: `(max-width:1024px)`
+    }, (context) => {
+        let { isDesktop, isMobile } = context.conditions;
 
-    // Tittle Pin
-    ScrollTrigger.create({
-        trigger: title,
-        start:"top top",
-        endTrigger: horizontal,
-        end: () =>  "+=" + (horizontal.offsetWidth - innerWidth),
-        pin: true,
-        anticipatePin: 1,
-        //id: "goalTitle",
-        //markers:true,
-    });
-    
-
-    // Horizontal
-    gsap.to(horizontalItem, {
-        xPercent: -100 * (horizontalItem.length - 1),
-        ease: "none",
-        scrollTrigger: {
-            trigger: horizontal,
-            start: "top top",
-            end: () =>  "+=" + (horizontal.offsetWidth - innerWidth), //너비에서 현재 뷰포트의 너비를 더한 값
-            //markers: true,
-            //id: "horizontalItem",
-            pin: true,
-            scrub: 1,
-            // snap: {
-            //     snapTo: 1 / (horiItem.length - 1), // 각 요소 사이의 스냅 간격 설정
-            //     inertia: false, // 관성 효과 비활성화
-            //     duration: {min: 0.1, max: 0.1}
-            // },
-            invalidateOnRefresh: true, // 페이지 새로고침 시 스크롤 트리거 위치 재계산
-            anticipatePin: 1 // 스크롤 트리거 요소의 위치를 예측하여 부드럽게 고정
+        if(isDesktop) {
+            const goalTl = gsap.timeline({defaults: {duration: 300},
+                scrollTrigger: {
+                    trigger: ".goal",
+                    start: "top top",
+                    end: "300%",
+                    scrub: 1,
+                    pin: true,
+                    //pinSpacing: false,
+                    //markers: true
+                } 
+            });
+        
+            goalTl
+            .to(".goal__item:nth-child(1)", {opacity: 0, delay: 1})
+            .to(".goal__item:nth-child(2)", {opacity: 1}, '-=50%')
+            .to(".goal__item:nth-child(2)", {opacity: 0, delay: 1})
+            .to(".goal__item:nth-child(3)", {opacity: 1}, '-=50%')
         }
-    });
-}
-
-
-////////// 5. Contact (Footer)
-function contact() {
-    gsap.to(".footer__inner", {
-        scrollTrigger: {
-            trigger: ".footer",
-            start:"-=500 center",
-            end: "bottom bottom",
-            scrub: 1,
-            // markers: true,
-        },
-        y:0
-    });
-
-    ScrollTrigger.create({
-        trigger: ".footer",
-        start: "top center",
-        end: "bottom center",
-        // markers: true,
-        // id: "footerEnter",
-        toggleClass: {"targets": ".footer", className: "active"},
     })
 }
 
 
-////////// Common
-function common() {
-
+////////// Layout
+function layout() {
     // Header
     $(".gnb__item > a, .gnb-mobile__item > a").click(function(){
         $("html, body").animate({scrollTop : $(this.hash).offset().top}, 800);
         return false;
     });
-    $(".header__contact > a, .gnb-mobile__item:last-child > a").click(function(){
-        $("html, body").animate({scrollTop : document.body.scrollHeight}, 800);
-        return false;
-    });
-    
     
     // Menu
     const gnbTl = gsap.timeline({paused:true});
@@ -647,8 +400,9 @@ function common() {
 
     });
 
-    // Section Scroll Event
-    $(window).scroll(function(e) {
+
+    // Scroll Event
+    $(window).scroll(function() {
         var wScroll = $(window).scrollTop();
         var dHeight = $(document).height();
         var wHeight = $(window).height();
@@ -659,7 +413,7 @@ function common() {
         var roundScroll = Math.round(scrollPercent);
 
             $(".scroll-progress__percent").text(roundScroll);
-            $(".scroll-bar").css("width", scrollPercent + "%");
+            //$(".scroll-bar").css("width", scrollPercent + "%");
 
             if(wScroll < 50) {
                 gsap.to(".scroll__item", {yPercent: 0, duration: 0.5})
@@ -670,6 +424,8 @@ function common() {
             }
     });
 
+
+    // Top Button
     $(".top-btn").click(function(){
         $("html, body").animate({scrollTop : 0}, 500);
         return false;
@@ -678,4 +434,32 @@ function common() {
     $("a[href='#']").click(function(e){
         e.preventDefault();
     });
+
+
+    // Footer
+    const footerTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".footer__title-wrap",
+            start:"-50% top",
+            end: "center center",
+            scrub: 1,
+            //markers: true,
+            //refreshPriority: 0,
+        }
+    });
+
+    footerTl
+    .to(".footer__img-box", {scale: 0.2, duration: 1}, '-=50%')
+    .from(".footer__title span:first-child", {xPercent: -100, duration: 1}, '<')
+    .from(".footer__title span:last-child", {xPercent: 100, duration: 1}, '<')
+
+    
+    // lastWidth = window.innerWidth;
+    // $(window).resize(function(){
+    // if(window.innerWidth != lastWidth){
+    //     location.reload();
+    //     scrollTrigger.refresh();
+    // }
+    // lastWidth = window.innerWidth;
+    // });
 }
