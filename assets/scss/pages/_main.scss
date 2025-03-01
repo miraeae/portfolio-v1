@@ -2,14 +2,12 @@
 /* Sec common */
 .sec{
     counter-reset:number;
-    @include prefix(transition, background-color .8s);
 
     &>[class*=__inner]:not(.pd-none){
         padding-left: var(--grid-padding);
         padding-right: var(--grid-padding);
     }
 }
-
 
 /* Hero */
 .hero{
@@ -396,7 +394,7 @@
         align-items: flex-end;
         width: 300vw;
         height: 100vh;
-        padding:0 35vw 6vh;
+        padding:0 37vw 6vh;
         flex-wrap: wrap;
 
         @include tablet {
@@ -693,7 +691,7 @@
         position: relative;
         height:60vh;
         background-color: $color-white;
-        border: 1px solid rgba(0,0,0,0.1);
+        border: 1px solid rgba(0,0,0,0.2);
         border-radius: 0.9375rem;
 
         @include tablet {
@@ -753,7 +751,6 @@
             &-desc{
                 max-width: 500px;
                 margin-top: 1rem;
-                opacity: 0.7;
                 font-size: 1.0625rem;
 
                 @include laptop {
