@@ -8,14 +8,14 @@ html{
 }
 
 body {
-    overflow-x: hidden;
     font-family: "Inter", "pretendard", sans-serif;
     word-break:keep-all;
     line-height: 1.6;
     letter-spacing: -.03rem;
     background-color:$color-white;
     color:$color-black;
-    @include prefix(transition, background-color .8s);
+    overflow-x: hidden;
+    transition: background-color .8s;
 
     @include pc {
         cursor: none;
@@ -34,17 +34,8 @@ body {
         --grid-padding: 1.5rem;
         --grid-padding-row: 4.2857rem;
     }
-
 }
 
-::-webkit-selection {
-    background: rgba(135, 135, 135, .35);
-    color:#fff;
-}
-::-moz-selection {
-    background: rgba(135, 135, 135, .35);
-    color:#fff;
-}
 ::selection {
     background: rgba(135, 135, 135, .35);
     color:#fff;
