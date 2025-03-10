@@ -131,19 +131,19 @@ body {
 }
 
 :root {
-  --grid-padding: 2.5rem;
-  --grid-padding-row: 7.5rem;
+  --grid-margin: 2.5rem;
+  --grid-spacing: 7.5rem;
 }
 @media (max-width: 1024px) {
   :root {
-    --grid-padding: 2rem;
-    --grid-padding-row: 5.3333rem;
+    --grid-margin: 2rem;
+    --grid-spacing: 5.3333rem;
   }
 }
 @media (max-width: 767px) {
   :root {
-    --grid-padding: 1.5rem;
-    --grid-padding-row: 4.2857rem;
+    --grid-margin: 1.5rem;
+    --grid-spacing: 4.2857rem;
   }
 }
 
@@ -575,7 +575,7 @@ body {
 }
 
 .footer {
-  padding-top: var(--grid-padding-row);
+  padding-top: var(--grid-spacing);
   position: relative;
   overflow: hidden;
 }
@@ -609,8 +609,8 @@ body {
   font-size: 10vw;
   line-height: 1;
   font-weight: 400;
-  padding-left: var(--grid-padding);
-  padding-right: var(--grid-padding);
+  padding-left: var(--grid-margin);
+  padding-right: var(--grid-margin);
 }
 .footer__title-wrap .footer__title span:nth-child(2) {
   font-family: "NyghtSerif", serif;
@@ -632,7 +632,7 @@ body {
 .footer .contact {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  padding: 0 var(--grid-padding);
+  padding: 0 var(--grid-margin);
   padding-bottom: 2.2rem;
 }
 @media (max-width: 1024px) {
@@ -716,8 +716,8 @@ body {
   counter-reset: number;
 }
 .sec > [class*=__inner]:not(.pd-none) {
-  padding-left: var(--grid-padding);
-  padding-right: var(--grid-padding);
+  padding-left: var(--grid-margin);
+  padding-right: var(--grid-margin);
 }
 
 /* Hero */
@@ -908,7 +908,7 @@ body {
 
 /* Project */
 .project__inner {
-  padding-bottom: var(--grid-padding-row);
+  padding-bottom: var(--grid-spacing);
 }
 .project__title-wrap {
   position: relative;
@@ -1148,13 +1148,13 @@ body {
 /* Sub Project */
 .sub-project__inner {
   position: relative;
-  padding-bottom: var(--grid-padding-row);
+  padding-bottom: var(--grid-spacing);
   overflow: hidden;
 }
 @media (max-width: 1024px) {
   .sub-project__inner {
-    padding-left: var(--grid-padding);
-    padding-right: var(--grid-padding);
+    padding-left: var(--grid-margin);
+    padding-right: var(--grid-margin);
   }
 }
 .sub-project__title-wrap {
@@ -1487,7 +1487,7 @@ body {
     height: auto;
     grid-template-columns: 1fr;
     gap: 1.25rem;
-    padding-top: var(--grid-padding-row);
+    padding-top: var(--grid-spacing);
   }
 }
 .goal__title-box {

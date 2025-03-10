@@ -23,16 +23,16 @@ body {
 }
 
 :root{
-    --grid-padding: 2.5rem;
-    --grid-padding-row: 7.5rem;
+    --grid-margin: 2.5rem;
+    --grid-spacing: 7.5rem;
 
     @include tablet {
-        --grid-padding: 2rem;
-        --grid-padding-row: 5.3333rem;
+        --grid-margin: 2rem;
+        --grid-spacing: 5.3333rem;
     }
     @include mobile {
-        --grid-padding: 1.5rem;
-        --grid-padding-row: 4.2857rem;
+        --grid-margin: 1.5rem;
+        --grid-spacing: 4.2857rem;
     }
 }
 

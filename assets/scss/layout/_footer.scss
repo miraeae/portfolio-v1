@@ -1,5 +1,5 @@
 .footer{
-    padding-top: var(--grid-padding-row);
+    padding-top: var(--grid-spacing);
     position: relative;
     overflow: hidden;
 
@@ -22,8 +22,8 @@
             font-size: 10vw;
             line-height: 1;
             font-weight: 400;
-            padding-left: var(--grid-padding);
-            padding-right: var(--grid-padding);
+            padding-left: var(--grid-margin);
+            padding-right: var(--grid-margin);
             
             span {
                 &:nth-child(2) {
@@ -51,7 +51,7 @@
     .contact{
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        padding:0 var(--grid-padding);
+        padding:0 var(--grid-margin);
         padding-bottom: 2.2rem;
         @include tablet {
             padding-bottom: 1.7rem;

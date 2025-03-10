@@ -4,8 +4,8 @@
     counter-reset:number;
 
     &>[class*=__inner]:not(.pd-none){
-        padding-left: var(--grid-padding);
-        padding-right: var(--grid-padding);
+        padding-left: var(--grid-margin);
+        padding-right: var(--grid-margin);
     }
 }
 
@@ -179,7 +179,7 @@
 /* Project */
 .project{
     &__inner{
-        padding-bottom:var(--grid-padding-row);
+        padding-bottom:var(--grid-spacing);
     }
 
     &__title-wrap{
@@ -380,12 +380,12 @@
 .sub-project{
     &__inner{
         position: relative;
-        padding-bottom: var(--grid-padding-row);
+        padding-bottom: var(--grid-spacing);
         overflow: hidden;
 
         @include tablet {
-            padding-left: var(--grid-padding);
-            padding-right: var(--grid-padding);
+            padding-left: var(--grid-margin);
+            padding-right: var(--grid-margin);
         }
     }
 
@@ -683,7 +683,7 @@
             height: auto;
             grid-template-columns: 1fr;
             gap: 1.25rem;
-            padding-top: var(--grid-padding-row);
+            padding-top: var(--grid-spacing);
         }
     }
 
