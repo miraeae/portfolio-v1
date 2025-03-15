@@ -340,10 +340,10 @@ function subProject() {
 
         gsap.to(".sub-project__add",{
             scrollTrigger: {
-                trigger:".sub-project__add",
-                start: "-=100 center",
-                end: "bottom center",
-                // markers: true,
+                trigger:".sub-project",
+                start: "bottom-=600 center",
+                end: "bottom bottom",
+                //markers: true,
                 onEnter: () => {
                     updateCounter();
                 }
