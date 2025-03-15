@@ -102,7 +102,12 @@
 
 /* About */
 .about{
+    position: relative;
+    height: 500vh;
+
     &__inner{
+        position: sticky;
+        top: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -378,12 +383,21 @@
 
 /* Sub Project */
 .sub-project{
+    position: relative;
+    height: 600vh;
+
+    @include tablet {
+        height: auto;
+    }
+
     &__inner{
-        position: relative;
+        position: sticky;
+        top: 0;
         padding-bottom: var(--grid-spacing);
         overflow: hidden;
 
         @include tablet {
+            position: relative;
             padding-left: var(--grid-margin);
             padding-right: var(--grid-margin);
         }
@@ -474,16 +488,14 @@
         }
 
         &-link{
-            display: block; 
-            width:100%; 
             position: relative;
+            display: block;
+            width: 100%;
         }
 
         &-img-box{
-            a{
-                border-radius: 1rem;
-                overflow: hidden;
-            }
+            border-radius: 1rem;
+            overflow: hidden;
 
             @include pc {
                 filter : grayscale(1);
@@ -670,7 +682,16 @@
 
 /* Goal */
 .goal {
+    position: relative;
+    height: 300vh;
+
+    @include tablet {
+        height: auto;
+    }
+
     &__inner{
+        position: sticky;
+        top: 0;
         display: grid;
         grid-template-columns: 1fr 1fr;
         align-items: center;
@@ -680,6 +701,7 @@
         gap: 1.5625rem;
 
         @include tablet {
+            position: unset;
             height: auto;
             grid-template-columns: 1fr;
             gap: 1.25rem;

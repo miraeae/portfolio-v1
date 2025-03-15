@@ -71,9 +71,8 @@ function about() {
         scrollTrigger: {
             trigger: ".about",
             start: "top top",
-            end: "400%",
+            end: "bottom bottom",
             scrub: 1,
-            pin: true
         } 
     });
 
@@ -211,7 +210,6 @@ function project() {
 ///// 3-2. Sub Project
 function subProject() {
     // Horizontal Scroll
-    const subTitle = document.querySelector(".sub-project__title-wrap");
     const subList = document.querySelector(".sub-project__list");
     const subItem = gsap.utils.toArray(".sub-project__item");
 
@@ -223,32 +221,23 @@ function subProject() {
             let { isDesktop, isMobile } = context.conditions;
 
         if(isDesktop) {
-            // Title Pin
-            ScrollTrigger.create({
-                trigger: subTitle,
-                start:"top top",
-                end: () =>  "+=" + (subList.offsetWidth - innerWidth),
-                pin: true,
-                scrub: 1,
-                // markers: true,
-                refreshPriority: 0,
-            })
-
             // Horizontal Scroll
             const scrollTween = gsap.to(subItem, {
-                xPercent: -100 * (subItem.length - 1), //마지막 요소를 제외한 모든 요소들을 왼쪽으로 100%만큼 이동
+                xPercent: -100 * (subItem.length - 1),
                 ease:"none",
                 scrollTrigger: {
                     trigger: subList,
                     start:"top top",
-                    end: () =>  "+=" + (subList.offsetWidth - innerWidth), // 요소의 너비에서 현재 뷰포트의 너비를 뺀 값
-                    pin: true,
+                    end: () =>  "+=" + (subList.offsetWidth - innerWidth),
                     //markers:true,
                     scrub:1,
                 }
             });
 
             gsap.utils.toArray('.sub-project__item-text-box').forEach(function(textBox){
+                const imgBox = textBox.previousElementSibling;
+                const modal = textBox.nextElementSibling;
+
                 gsap.timeline({
                     scrollTrigger: {
                         trigger: textBox,
@@ -259,9 +248,9 @@ function subProject() {
                         //markers: true
                     }
                 })
-                .to(textBox.previousElementSibling, {"filter":"grayscale(0)", ease:"none", duration:1})
+                .to(imgBox, {"filter":"grayscale(0)", ease:"none", duration:1})
                 .to(textBox, {opacity:1,"height":"100px",}, '<')
-                .to(textBox.nextElementSibling, {"opacity":"1"}, '<')
+                .to(modal, {"opacity":"1"}, '<')
             
                 gsap.timeline({
                     scrollTrigger: {
@@ -273,13 +262,12 @@ function subProject() {
                         //markers: true
                     }
                 })
-                .to(textBox.previousElementSibling, {"filter":"grayscale(1)", ease:"none", duration:1}, 0)
+                .to(imgBox, {"filter":"grayscale(1)", ease:"none", duration:1}, 0)
                 .to(textBox, {opacity: 0,"height": 0}, '<')
-                .to(textBox.nextElementSibling, {"opacity":0}, '<')
+                .to(modal, {"opacity":0}, '<')
             });
         }
     })
-
 
     // Modal
     const toggles = document.querySelectorAll(".modal__toggle");
@@ -315,9 +303,7 @@ function subProject() {
             }
         });
 
-    // Issue: 가로 스크롤 포커스
     });
-
 
 
     // Counter
@@ -370,10 +356,8 @@ function goal() {
                 scrollTrigger: {
                     trigger: ".goal",
                     start: "top top",
-                    end: "300%",
+                    end: "bottom bottom",
                     scrub: 1,
-                    pin: true,
-                    //pinSpacing: false,
                     //markers: true
                 } 
             });
@@ -439,7 +423,6 @@ function layout() {
             $(".cursor").removeClass("active");
             $(".cursor-more").removeClass("active");
         });
-
     });
 
 
