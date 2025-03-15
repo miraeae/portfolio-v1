@@ -193,15 +193,14 @@ function project() {
     document.querySelectorAll(".project .project__item-link").forEach(link => {
         if(window.innerWidth >= 1024) {
             link.addEventListener("focus", function() {
-                this.closest('.project__item-link-box') //closest: 주어진 선택자와 일치하는 요소를 찾을 때까지, 자기 자신을 포함해 위쪽(부모 방향, 문서 루트까지)으로 문서 트리를 순회
-                ?.closest('.project__item-text-box') // ?.(옵셔널 체이닝): 객체 속성에 접근할 때, 해당 속성이 없을 경우 오류가 발생하는 것을 방지하는 연산자
-                ?.style.setProperty('height', '155px');
+                //closest: 주어진 선택자와 일치하는 요소를 찾을 때까지, 자기 자신을 포함해 위쪽(부모 방향, 문서 루트까지)으로 문서 트리를 순회
+                this.closest(".project__item-text-box")
+                ?.style.setProperty('height', '155px'); //옵셔널 체이닝(?.)은 null 또는 undefined인 객체에서 속성을 접근할 때 오류를 방지해주는 연산자
             });
         
             link.addEventListener('blur', function() {
-                this.closest('.project__item-link-box')
-                    ?.closest('.project__item-text-box')
-                    ?.style.removeProperty('height');
+                this.closest('.project__item-text-box')
+                ?.style.removeProperty('height');
             });
         }
     });
@@ -269,14 +268,27 @@ function subProject() {
         }
     })
 
+    document.querySelectorAll(".sub-project__item-link").forEach(link => {
+        link.addEventListener("focus", function() {
+            const imgBox = this.parentElement;
+            if (imgBox) {
+                const textBox = imgBox.nextElementSibling;
+                if (textBox) {
+                    const modal = textBox.nextElementSibling;
+
+                    imgBox.style.setProperty("filter", "grayscale(0)");
+                    textBox.style.setProperty("height", "100px");
+                    textBox.style.setProperty("opacity", "1");
+                    modal.style.setProperty("opacity", "1");
+                }
+            }
+        });
+    });
+
     // Modal
     const toggles = document.querySelectorAll(".modal__toggle");
 
     toggles.forEach(toggle => {
-        toggle.setAttribute("tabindex", "0");
-        toggle.setAttribute("aria-label", "더보기 열기");
-        toggle.setAttribute("aria-expanded", "false");
-
         function toggleModal() {
             $(this).toggleClass("active");
             const modal = $(this).parent(".modal");
@@ -287,12 +299,12 @@ function subProject() {
             const size = isDesktop ? { open: "360px", close: "45px" } : { open: "320px", close: "35px" };
             const borderRadius = isActive ? "20px" : isDesktop ? "45px" : "35px";
 
-            this.setAttribute("aria-label", isActive ? "더보기 닫기" : "더보기 열기");
+            this.setAttribute("aria-label", isActive ? "자세히보기 닫기" : "자세히보기");
             this.setAttribute("aria-expanded", isActive.toString()); //isActive는 true 또는 false 값을 가지는 Boolean 타입 //.toString()은 JavaScript에서 값을 문자열로 변환하는 메서드
     
             gsap.timeline()
                 .to(modal, { width: isActive ? size.open : size.close, height: isActive ? "auto" : size.close, borderRadius })
-                .to(content, { opacity: isActive ? 1 : 0 }, "<");
+                .to(content, { autoAlpha: isActive ? 1 : 0 }, "<");
         }
 
         toggle.addEventListener("click", toggleModal);
@@ -302,7 +314,6 @@ function subProject() {
                 toggleModal.call(this); // 현재 요소에서 실행되도록 call(this) 사용
             }
         });
-
     });
 
 

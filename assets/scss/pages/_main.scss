@@ -305,17 +305,7 @@
         &-link-box{
             margin-top: 1rem;
             font-size: 1.0625rem;
-        }
 
-        &-link {
-            display: inline-block;
-
-            @include tablet {
-                display: block;
-                margin-bottom: 0.2rem;
-                background-size: 9px 9px;
-            }
-            
             span{
                 @include lineBtn(1px, $color-white);
 
@@ -331,6 +321,16 @@
                         width: 9px;
                     }
                 }
+            }
+        }
+
+        &-link {
+            display: inline-block;
+
+            @include tablet {
+                display: block;
+                margin-bottom: 0.2rem;
+                background-size: 9px 9px;
             }
 
             &--overlay{
@@ -491,12 +491,11 @@
             position: relative;
             display: block;
             width: 100%;
+            border-radius: 1rem;
+            overflow: hidden;
         }
 
         &-img-box{
-            border-radius: 1rem;
-            overflow: hidden;
-
             @include pc {
                 filter : grayscale(1);
             }
@@ -603,6 +602,7 @@
             display: flex;
             flex-flow: column;
             padding: 0.9375rem 1.5625rem 3.125rem;
+            visibility: hidden;
             opacity: 0;
 
             @include tablet {
