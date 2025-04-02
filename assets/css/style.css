@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -56,18 +58,6 @@ img {
 /* Font */
 @font-face {
   font-family: "NyghtSerif";
-  font-weight: 300;
-  font-style: normal;
-  src: url("../fonts/NyghtSerif-Light.woff2") format("woff2");
-}
-@font-face {
-  font-family: "NyghtSerif";
-  font-weight: 300;
-  font-style: italic;
-  src: url("../fonts/NyghtSerif-LightItalic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "NyghtSerif";
   font-weight: 400;
   font-style: normal;
   src: url("../fonts/NyghtSerif-Regular.woff2") format("woff2");
@@ -77,30 +67,6 @@ img {
   font-weight: 400;
   font-style: italic;
   src: url("../fonts/NyghtSerif-RegularItalic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "NyghtSerif";
-  font-weight: 500;
-  font-style: normal;
-  src: url("../fonts/NyghtSerif-Medium.woff2") format("woff2");
-}
-@font-face {
-  font-family: "NyghtSerif";
-  font-weight: 500;
-  font-style: italic;
-  src: url("../fonts/NyghtSerif-MediumItalic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "NyghtSerif";
-  font-weight: 600;
-  font-style: normal;
-  src: url("../fonts/NyghtSerif-Bold.woff2") format("woff2");
-}
-@font-face {
-  font-family: "NyghtSerif";
-  font-weight: 600;
-  font-style: italic;
-  src: url("../fonts/NyghtSeri-BoldItalic.woff2") format("woff2");
 }
 @media (max-width: 1024px) {
   html {
