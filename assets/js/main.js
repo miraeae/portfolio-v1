@@ -1,19 +1,4 @@
-gsap.registerPlugin(ScrollTrigger);
-
-////////////////////////////////////////
-////////// 0. 부드럽게 스크롤
-const lenis = new Lenis();
-
-lenis.on("scroll", ScrollTrigger.update);
-
-gsap.ticker.add((time) => {
-  lenis.raf(time * 500);
-});
-
-gsap.ticker.lagSmoothing(0);
-
-////////////////////////////////////////
-////////// 1. Hero
+// 1. Hero
 function hero() {
   // Animation
   const hero = document.getElementById("hero");
@@ -65,8 +50,7 @@ function hero() {
   // }
 }
 
-////////////////////////////////////////
-////////// 2. About
+// 2. About
 function about() {
   const aboutTl = gsap.timeline({
     scrollTrigger: {
@@ -96,8 +80,7 @@ function about() {
     .to({}, { duration: 1 });
 }
 
-////////////////////////////////////////
-////////// 3. Projects
+// 3. Projects
 function project() {
   // Title
   const headings = document.querySelectorAll(".reveal-text");
@@ -213,8 +196,7 @@ function project() {
   });
 }
 
-////////////////////////////////////////
-////////// 3-2. Sub Project
+// 3-2. Sub Project
 function subProject() {
   // Horizontal Scroll
   const subList = document.querySelector(".sub-project__list");
@@ -378,8 +360,7 @@ function subProject() {
   });
 }
 
-////////////////////////////////////////
-////////// 4. Goal
+// 4. Goal
 function goal() {
   const mm = gsap.matchMedia();
   mm.add(
@@ -412,78 +393,34 @@ function goal() {
   );
 }
 
-////////////////////////////////////////
-////////// 0. Layout
-function layout() {
-  // Header
-  $(".gnb__item > a, .gnb-mobile__item > a").click(function () {
-    $("html, body").animate({ scrollTop: $(this.hash).offset().top }, 800);
-    return false;
+// 5. Contact
+function contact() {
+  const contactTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".footer__title-wrap",
+      start: "-50% top",
+      end: "center center",
+      scrub: 1,
+      //markers: true,
+      refreshPriority: 0,
+    },
   });
 
-  // Menu
-  const gnbTl = gsap.timeline({ paused: true });
-
-  gnbTl
-    .to(".gnb-mobile", 0.4, {
-      height: "auto",
-      duration: 0.2,
-      ease: "power1.inOut",
-    })
-    .from(".gnb-mobile li", { yPercent: 100, opacity: 0, stagger: 0.1 });
-
-  $(".gnb-trigger").click(function () {
-    $(this).toggleClass("active");
-    $(this).attr("aria-label", "메뉴 닫기");
-    $(this).attr("aria-expanded", "true");
-
-    if ($(this).hasClass("active")) {
-      gnbTl.play();
-    } else {
-      gnbTl.reverse();
-      $(this).attr("aria-label", "메뉴 열기");
-      $(this).attr("aria-expanded", "false");
-    }
-  });
-
-  // Cursor
-  $(document).mousemove(function (e) {
-    gsap.to(".cursor", {
-      opacity: 1,
-      duration: 0.3,
-      left: e.pageX,
-      top: e.pageY,
-    }); //e.clientX
-    gsap.to(".cursor-more", {
-      duration: 1,
-      left: e.pageX + 15,
-      top: e.pageY + 15,
-    });
-
-    $("a, [class*=btn], .gnb-trigger, .modal__toggle").hover(
-      function () {
-        e.preventDefault();
-        $(".cursor").addClass("active");
-      },
-      function () {
-        $(".cursor").removeClass("active");
-      }
+  contactTl
+    .to(".footer__img-box", { scale: 0.2, duration: 1 }, "-=50%")
+    .from(
+      ".footer__title span:first-child",
+      { xPercent: -100, duration: 1 },
+      "<"
+    )
+    .from(
+      ".footer__title span:last-child",
+      { xPercent: 100, duration: 1 },
+      "<"
     );
+}
 
-    $("[class$=project__item-link], .project__item-link--overlay").hover(
-      function () {
-        e.preventDefault();
-        $(".cursor").removeClass("active");
-        $(".cursor-more").addClass("active");
-      },
-      function () {
-        $(".cursor").removeClass("active");
-        $(".cursor-more").removeClass("active");
-      }
-    );
-  });
-
-  // Scroll Event
+function scrollProcess() {
   $(window).scroll(function () {
     var wScroll = $(window).scrollTop();
     var dHeight = $(document).height();
@@ -505,48 +442,12 @@ function layout() {
       gsap.to(".scroll__item", { yPercent: -100, duration: 0.5 });
     }
   });
-
-  // Top Button
-  $(".top-btn").click(function (e) {
-    e.preventDefault();
-    $("html, body").animate({ scrollTop: 0 }, 500);
-    return false;
-  });
-
-  // 빈 클릭 방지
-  $("a[href='#']").click(function (e) {
-    e.preventDefault();
-  });
-
-  // Footer
-  const footerTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: ".footer__title-wrap",
-      start: "-50% top",
-      end: "center center",
-      scrub: 1,
-      //markers: true,
-      refreshPriority: 0,
-    },
-  });
-
-  footerTl
-    .to(".footer__img-box", { scale: 0.2, duration: 1 }, "-=50%")
-    .from(
-      ".footer__title span:first-child",
-      { xPercent: -100, duration: 1 },
-      "<"
-    )
-    .from(
-      ".footer__title span:last-child",
-      { xPercent: 100, duration: 1 },
-      "<"
-    );
 }
 
-layout(); // 0
 hero(); // 1
 about(); // 2
 project(); // 3
 subProject(); // 3-2
 goal(); // 4
+contact(); //5
+scrollProcess();
